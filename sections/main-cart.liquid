@@ -1,0 +1,47 @@
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><span aria-current="page">Cart</span></nav>
+  <div class="cart-title"><h1>Your Cart</h1>{%- if cart.item_count > 0 -%}<span>{{ cart.item_count }} item{% if cart.item_count > 1 %}s{% endif %}</span>{%- endif -%}</div>
+  {%- if cart.item_count == 0 -%}
+    <div class="empty"><h2>Your cart is empty</h2><p class="muted">Browse our laptops and PCs to get started.</p><a class="btn" href="{{ routes.all_products_collection_url }}">Continue Shopping</a></div>
+  {%- else -%}
+    {%- assign original_total = 0 -%}
+    {%- for item in cart.items -%}
+      {%- assign line_orig = item.final_line_price -%}
+      {%- if item.variant.compare_at_price > item.final_price -%}{%- assign line_orig = item.variant.compare_at_price | times: item.quantity -%}{%- endif -%}
+      {%- assign original_total = original_total | plus: line_orig -%}
+    {%- endfor -%}
+    {%- assign savings = original_total | minus: cart.total_price -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart">
+      <div class="cart__items">
+        {%- for item in cart.items -%}
+          <div class="citem">
+            <a class="citem__img" href="{{ item.url }}">{%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: alt: item.title }}{%- endif -%}</a>
+            <div>
+              <h3><a href="{{ item.url }}" style="text-decoration:none">{{ item.product.title }}</a></h3>
+              {%- if item.product.metafields.custom.short_specs != blank -%}<p class="citem__spec">{{ item.product.metafields.custom.short_specs }}</p>{%- endif -%}
+              {%- unless item.product.has_only_default_variant -%}<p class="citem__spec">{{ item.variant.title }}</p>{%- endunless -%}
+              <p class="stock">In stock &middot; Free delivery</p>
+              <div class="qty"><button type="button" data-qty="-1" aria-label="Decrease quantity">&minus;</button><input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity"><button type="button" data-qty="1" aria-label="Increase quantity">+</button></div>
+              <a class="rm" href="{{ item.url_to_remove }}">Remove</a>
+            </div>
+            <div class="citem__price"><strong>{{ item.final_line_price | money_without_trailing_zeros }}</strong>{%- if item.variant.compare_at_price > item.final_price -%}<s>{{ item.variant.compare_at_price | times: item.quantity | money_without_trailing_zeros }}</s>{%- endif -%}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <aside class="summary">
+        <h2>Order summary</h2>
+        <div class="summary__row"><span>Subtotal</span><b>{{ original_total | money_without_trailing_zeros }}</b></div>
+        {%- if savings > 0 -%}<div class="summary__row"><span>Savings</span><b class="save">&minus;{{ savings | money_without_trailing_zeros }}</b></div>{%- endif -%}
+        <div class="summary__row"><span>Delivery</span><b>Free</b></div>
+        <div class="summary__total"><span><b>Total</b></span><strong>{{ cart.total_price | money_without_trailing_zeros }}</strong></div>
+        <small>Inclusive of GST</small>
+        <button class="btn btn--green btn--block" type="submit" name="checkout">Proceed to Checkout</button>
+        <a class="link" href="{{ routes.all_products_collection_url }}">Continue Shopping</a>
+        <noscript><button class="btn btn--white btn--block" type="submit" name="update" style="margin-top:12px">Update cart</button></noscript>
+      </aside>
+    </form>
+  {%- endif -%}
+</div>
+{% schema %}
+{ "name": "Cart" }
+{% endschema %}

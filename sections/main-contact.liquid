@@ -1,0 +1,19 @@
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><span aria-current="page">{{ page.title }}</span></nav>
+  <div class="chead"><h1>{{ page.title }}</h1></div>
+  <div class="prose">{{ page.content }}</div>
+  <div class="narrow" style="padding:24px 0 56px">
+  {%- form 'contact' -%}
+    {%- if form.posted_successfully? -%}<p class="msg">Message sent. We'll reply within one business day.</p>{%- endif -%}
+    {%- if form.errors -%}<p class="msg msg--err">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <div class="field"><label for="cn">Name</label><input id="cn" name="contact[name]" value="{{ form.name }}" autocomplete="name"></div>
+    <div class="field"><label for="ce">Email</label><input id="ce" type="email" name="contact[email]" value="{{ form.email }}" required autocomplete="email"></div>
+    <div class="field"><label for="cp">Phone (optional)</label><input id="cp" type="tel" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+    <div class="field"><label for="cb">How can we help?</label><textarea id="cb" name="contact[body]" rows="6" required>{{ form.body }}</textarea></div>
+    <button class="btn" type="submit">Send message</button>
+  {%- endform -%}
+  </div>
+</div>
+{% schema %}
+{ "name": "Contact form" }
+{% endschema %}

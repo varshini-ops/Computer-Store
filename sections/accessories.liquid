@@ -1,0 +1,36 @@
+<section class="wrap section">
+  <div class="sec-head"><div><h2>{{ section.settings.heading }}</h2><p>{{ section.settings.subheading }}</p></div></div>
+  <div class="acc">
+    {%- for block in section.blocks -%}
+      <a class="acc__card" href="{{ block.settings.link | default: '/collections/accessories' }}" {{ block.shopify_attributes }}>
+        <span class="acc__icon">{%- if block.settings.image -%}{{ block.settings.image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}{% render 'icon', name: block.settings.icon %}{%- endif -%}</span>
+        <strong>{{ block.settings.title }}</strong>
+        {%- if block.settings.badge != blank -%}<span class="pill">{{ block.settings.badge }}</span>{%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Accessories",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Accessories" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Coming soon" }
+  ],
+  "blocks": [{
+    "type": "item", "name": "Accessory",
+    "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Headphones" },
+      { "type": "text", "id": "badge", "label": "Badge", "default": "Coming soon" },
+      { "type": "select", "id": "icon", "label": "Icon", "default": "headphones", "options": [
+        { "value": "headphones", "label": "Headphones" }, { "value": "mouse", "label": "Mouse" }, { "value": "keyboard", "label": "Keyboard" }
+      ]},
+      { "type": "image_picker", "id": "image", "label": "Image (overrides icon)" },
+      { "type": "url", "id": "link", "label": "Link" }
+    ]
+  }],
+  "max_blocks": 6,
+  "presets": [{ "name": "Accessories", "blocks": [{ "type": "item" }] }]
+}
+{% endschema %}

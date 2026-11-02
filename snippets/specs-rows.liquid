@@ -1,0 +1,9 @@
+{%- capture nl %}
+{% endcapture -%}
+{%- assign lines = text | split: nl -%}
+{%- for line in lines -%}
+  {%- assign label = line | split: ':' | first | strip -%}
+  {%- if label != blank -%}
+    <div class="specs__row"><span>{{ label }}</span><strong>{{ line | remove_first: label | remove_first: ':' | strip }}</strong></div>
+  {%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,60 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": { "button_link": "shopify://collections/all", "button2_link": "shopify://collections/touch-laptops" } },
+    "categories": {
+      "type": "category-tiles",
+      "blocks": {
+        "c1": { "type": "tile", "settings": { "title": "Touch Laptops", "subtitle": "Up to 12% off", "cta": "Shop Collection", "link": "shopify://collections/touch-laptops", "icon": "laptop" } },
+        "c2": { "type": "tile", "settings": { "title": "All-in-One PCs", "subtitle": "Up to 8% off", "cta": "Shop Collection", "link": "shopify://collections/all-in-one-pcs", "icon": "monitor" } },
+        "c3": { "type": "tile", "settings": { "title": "Digital Pen", "subtitle": "Included with Core Flex", "cta": "View Details", "link": "shopify://products/somato-core-flex", "icon": "pen" } },
+        "c4": { "type": "tile", "settings": { "title": "Accessories", "subtitle": "Coming soon", "cta": "Notify Me", "link": "shopify://collections/accessories", "icon": "bag" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {}
+    },
+    "featured": { "type": "featured-products", "settings": { "collection": "all" } },
+    "workspace": {
+      "type": "workspace-cards",
+      "blocks": {
+        "w1": { "type": "card", "settings": { "tag": "180° convertible touch", "title": "Somato Touch Pro", "text": "Just 1.61 kg with a 14.1\" FHD IPS touch display and a 30,800 mWh battery.", "button": "Explore Touch Pro", "link": "shopify://products/somato-touch-pro" } },
+        "w2": { "type": "card", "settings": { "tag": "360° touch + digital pen", "title": "Somato Core Flex", "text": "Ryzen 7 with a 45,600 mWh battery. Digital pen included.", "button": "Explore Core Flex", "link": "shopify://products/somato-core-flex" } },
+        "w3": { "type": "card", "settings": { "tag": "All-in-one PC", "title": "Somato Work Pro", "text": "23.8\" FHD IPS display with keyboard and mouse included.", "button": "Explore Work Pro", "link": "shopify://products/somato-work-pro" } }
+      },
+      "block_order": ["w1", "w2", "w3"],
+      "settings": {}
+    },
+    "compare": {
+      "type": "compare-table",
+      "blocks": {
+        "p1": { "type": "product", "settings": { "product": "somato-touch-pro" } },
+        "p2": { "type": "product", "settings": { "product": "somato-core-flex" } },
+        "p3": { "type": "product", "settings": { "product": "somato-work-pro" } }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {}
+    },
+    "why": {
+      "type": "why-row",
+      "blocks": {
+        "y1": { "type": "item", "settings": { "icon": "cpu", "title": "AMD Ryzen processors", "text": "Latest AMD CPUs" } },
+        "y2": { "type": "item", "settings": { "icon": "shield", "title": "2-Year warranty", "text": "On every Somato PC" } },
+        "y3": { "type": "item", "settings": { "icon": "pen", "title": "Touch and pen ready", "text": "Convertible touch displays" } },
+        "y4": { "type": "item", "settings": { "icon": "speaker", "title": "Audio", "text": "Built-in Dual speaker/Senary Audio" } }
+      },
+      "block_order": ["y1", "y2", "y3", "y4"],
+      "settings": {}
+    },
+    "accessories": {
+      "type": "accessories",
+      "blocks": {
+        "a1": { "type": "item", "settings": { "title": "Headphones", "icon": "headphones", "badge": "Coming soon" } },
+        "a2": { "type": "item", "settings": { "title": "Mice", "icon": "mouse", "badge": "Coming soon" } },
+        "a3": { "type": "item", "settings": { "title": "Keyboards", "icon": "keyboard", "badge": "Coming soon" } }
+      },
+      "block_order": ["a1", "a2", "a3"],
+      "settings": {}
+    },
+    "newsletter": { "type": "newsletter", "settings": {} }
+  },
+  "order": ["hero", "categories", "featured", "workspace", "compare", "why", "accessories", "newsletter"]
+}

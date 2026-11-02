@@ -1,0 +1,51 @@
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- liquid
+  assign pct = 0
+  if v.compare_at_price > v.price
+    assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+  endif
+-%}
+<div class="wrap">
+  {%- capture crumb_type -%}{%- if product.type != blank -%}{{ product.type }}{%- endif -%}{%- endcapture -%}
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    {%- if product.type != blank -%}<span>/</span><a href="{{ product.type | url_for_type }}">{{ product.type }}</a>{%- endif -%}
+    <span>/</span><span aria-current="page">{{ product.title }}</span>
+  </nav>
+  <div class="pdp">
+    <div>
+      <div class="pdp__media">
+        {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 1000 | image_tag: widths: '500, 800, 1000', sizes: '(min-width: 1000px) 45vw, 90vw', loading: 'eager', alt: product.featured_image.alt }}{%- else -%}{{ 'product-1' | placeholder_svg_tag }}{%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="pdp__thumbs">{%- for image in product.images offset: 1 limit: 5 -%}{{ image | image_url: width: 160 | image_tag: loading: 'lazy', alt: image.alt }}{%- endfor -%}</div>
+      {%- endif -%}
+    </div>
+    <div>
+      {%- if product.type != blank -%}<p class="eyebrow">{{ product.type }}</p>{%- endif -%}
+      <h1>{{ product.title }}</h1>
+      <div class="pdp__price">
+        <strong data-variant-price>{{ v.price | money_without_trailing_zeros }}</strong>
+        {%- if pct > 0 -%}<s>{{ v.compare_at_price | money_without_trailing_zeros }}</s><span class="pill">{{ pct }}% OFF</span>{%- endif -%}
+      </div>
+      <div class="pdp__desc">{{ product.description }}</div>
+      {%- if product.metafields.custom.specs != blank -%}<div class="specs">{% render 'specs-rows', text: product.metafields.custom.specs.value %}</div>{%- endif -%}
+      {%- form 'product', product -%}
+        {%- unless product.has_only_default_variant -%}
+          <div class="field"><label for="variant">{{ product.options | join: ' / ' }}</label>
+            <select name="id" id="variant" data-variant-select>
+              {%- for pv in product.variants -%}<option value="{{ pv.id }}" data-price="{{ pv.price | money_without_trailing_zeros }}" {% if pv == v %}selected{% endif %} {% unless pv.available %}disabled{% endunless %}>{{ pv.title }}{% unless pv.available %} – sold out{% endunless %}</option>{%- endfor -%}
+            </select></div>
+        {%- else -%}<input type="hidden" name="id" value="{{ v.id }}">{%- endunless -%}
+        <div class="buyrow">
+          <button class="btn" type="submit" data-add {% unless v.available %}disabled{% endunless %}>{% render 'icon', name: 'cart', size: 18 %} {% if v.available %}Add to Cart{% else %}Sold out{% endif %}</button>
+          <button class="heart" type="button" aria-label="Save to wishlist">{% render 'icon', name: 'heart' %}</button>
+        </div>
+      {%- endform -%}
+      {%- if section.settings.note != blank -%}<p class="pdp__note">{{ section.settings.note }}</p>{%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{ "name": "Product", "settings": [{ "type": "text", "id": "note", "label": "Note under button", "default": "2-year warranty  ·  Service by Uniserved  ·  GST invoice included" }] }
+{% endschema %}

@@ -1,0 +1,28 @@
+<section class="wrap section" style="padding-top:24px;padding-bottom:24px">
+  <div class="why">
+    {%- for block in section.blocks -%}
+      <div class="why__item" {{ block.shopify_attributes }}>
+        <span class="why__icon">{% render 'icon', name: block.settings.icon %}</span>
+        <span><strong>{{ block.settings.title }}</strong><small>{{ block.settings.text }}</small></span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why us row",
+  "blocks": [{
+    "type": "item", "name": "Item",
+    "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "2-Year warranty" },
+      { "type": "text", "id": "text", "label": "Text", "default": "On every Somato PC" },
+      { "type": "select", "id": "icon", "label": "Icon", "default": "shield", "options": [
+        { "value": "cpu", "label": "Processor" }, { "value": "shield", "label": "Shield" }, { "value": "pen", "label": "Pen" }, { "value": "speaker", "label": "Speaker" }, { "value": "laptop", "label": "Laptop" }, { "value": "monitor", "label": "Monitor" }, { "value": "bag", "label": "Bag" }
+      ]}
+    ]
+  }],
+  "max_blocks": 4,
+  "presets": [{ "name": "Why us row", "blocks": [{ "type": "item" }] }]
+}
+{% endschema %}

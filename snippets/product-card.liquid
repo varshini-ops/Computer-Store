@@ -1,0 +1,31 @@
+{%- liquid
+  assign pct = 0
+  assign diff = 0
+  if product.compare_at_price > product.price
+    assign diff = product.compare_at_price | minus: product.price
+    assign pct = diff | times: 100.0 | divided_by: product.compare_at_price | round
+  endif
+  assign v = product.selected_or_first_available_variant
+-%}
+<article class="pcard{% if large %} pcard--lg{% endif %}">
+  <div class="pcard__top">
+    {%- if pct > 0 -%}<span class="badge">{{ pct }}% OFF</span>{%- else -%}<span></span>{%- endif -%}
+    <button type="button" class="heart" aria-label="Save {{ product.title | escape }} to wishlist">{% render 'icon', name: 'heart', size: 16 %}</button>
+  </div>
+  <a class="pcard__img" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 900px) 30vw, 90vw', alt: product.featured_image.alt }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'ph' }}
+    {%- endif -%}
+  </a>
+  <p class="pcard__meta">{{ product.vendor }}{% if product.type != blank %} &middot; {{ product.type }}{% endif %}</p>
+  <h3 class="pcard__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+  {%- if product.metafields.custom.short_specs != blank -%}<p class="pcard__specs">{{ product.metafields.custom.short_specs }}</p>{%- endif -%}
+  <p class="pcard__price"><strong>{{ product.price | money_without_trailing_zeros }}</strong>{% if pct > 0 %}<s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>{% endif %}</p>
+  {%- if pct > 0 -%}<p class="pcard__save">You save {{ diff | money_without_trailing_zeros }} &middot; Free delivery</p>{%- endif -%}
+  {%- form 'product', product -%}
+    <input type="hidden" name="id" value="{{ v.id }}">
+    <button class="btn btn--block" type="submit" {% unless v.available %}disabled{% endunless %}>{% render 'icon', name: 'cart', size: 18 %} {% if v.available %}Add to Cart{% else %}Sold out{% endif %}</button>
+  {%- endform -%}
+</article>

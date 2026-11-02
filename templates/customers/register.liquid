@@ -1,0 +1,12 @@
+<div class="wrap"><div class="auth">
+  <h1>Create account</h1>
+  {%- form 'create_customer' -%}
+    {%- if form.errors -%}<div class="msg msg--err">{{ form.errors | default_errors }}</div>{%- endif -%}
+    <div class="field"><label for="FN">First name</label><input name="customer[first_name]" id="FN" autocomplete="given-name"></div>
+    <div class="field"><label for="LN">Last name</label><input name="customer[last_name]" id="LN" autocomplete="family-name"></div>
+    <div class="field"><label for="RE">Email</label><input type="email" name="customer[email]" id="RE" autocomplete="email" required></div>
+    <div class="field"><label for="RP">Password</label><input type="password" name="customer[password]" id="RP" autocomplete="new-password" required></div>
+    <button class="btn" type="submit">Create account</button>
+    <p class="alt">Already registered? <a class="link" href="{{ routes.account_login_url }}">Sign in</a></p>
+  {%- endform -%}
+</div></div>

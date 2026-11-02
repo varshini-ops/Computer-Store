@@ -1,0 +1,23 @@
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><span aria-current="page">{{ collection.title }}</span></nav>
+  <div class="chead">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<p>{{ collection.description | strip_html }}</p>{%- endif -%}
+  </div>
+  {%- if section.settings.menu != blank -%}
+    <div class="pills">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}" {% if link.active or link.child_active %}aria-current="page"{% endif %}>{{ link.title }}{% if link.object.products_count %} ({{ link.object.products_count }}){% endif %}</a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+  {%- paginate collection.products by 12 -%}
+    {%- if collection.products.size > 0 -%}
+      <div class="pgrid">{%- for product in collection.products -%}{% render 'product-card', product: product %}{%- endfor -%}</div>
+    {%- else -%}<p class="empty muted">No products here yet. Check back soon.</p>{%- endif -%}
+    {%- if paginate.pages > 1 -%}<div class="pagination">{{ paginate | default_pagination }}</div>{%- endif -%}
+  {%- endpaginate -%}
+</div>
+{% schema %}
+{ "name": "Collection", "settings": [{ "type": "link_list", "id": "menu", "label": "Filter pills menu (e.g. All, Touch Laptops, All-in-One PCs)" }] }
+{% endschema %}

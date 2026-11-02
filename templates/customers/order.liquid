@@ -1,0 +1,16 @@
+<div class="wrap">
+  <nav class="crumbs"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.account_url }}">Account</a><span>/</span><span aria-current="page">Order {{ order.name }}</span></nav>
+  <div class="cart-title"><h1>Order {{ order.name }}</h1><span>{{ order.created_at | date: '%d %b %Y' }}</span></div>
+  <div class="cart" style="grid-template-columns:1fr 340px">
+    <div class="card-box"><table class="tbl"><thead><tr><th>Product</th><th>Qty</th><th>Total</th></tr></thead><tbody>
+      {%- for line in order.line_items -%}<tr><td>{{ line.title }}</td><td>{{ line.quantity }}</td><td>{{ line.final_line_price | money_without_trailing_zeros }}</td></tr>{%- endfor -%}
+    </tbody></table></div>
+    <aside class="summary"><h2>Summary</h2>
+      <div class="summary__row"><span>Subtotal</span><b>{{ order.line_items_subtotal_price | money_without_trailing_zeros }}</b></div>
+      <div class="summary__row"><span>Shipping</span><b>{{ order.shipping_price | money_without_trailing_zeros }}</b></div>
+      <div class="summary__total"><span><b>Total</b></span><strong>{{ order.total_price | money_without_trailing_zeros }}</strong></div>
+      <p class="muted" style="margin-top:12px">Payment: {{ order.financial_status_label }} &middot; Delivery: {{ order.fulfillment_status_label }}</p>
+      {%- if order.shipping_address -%}<p class="muted">{{ order.shipping_address | format_address }}</p>{%- endif -%}
+    </aside>
+  </div>
+</div>

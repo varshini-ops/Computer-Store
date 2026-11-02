@@ -1,0 +1,28 @@
+<section class="wrap cats">
+  {%- for block in section.blocks -%}
+    <a class="cat" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+      <span class="cat__icon">{% render 'icon', name: block.settings.icon %}</span>
+      <span><strong>{{ block.settings.title }}</strong><small>{{ block.settings.subtitle }}</small><em>{{ block.settings.cta }}&nbsp; &rarr;</em></span>
+    </a>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Category tiles",
+  "blocks": [{
+    "type": "tile", "name": "Tile",
+    "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Touch Laptops" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Up to 12% off" },
+      { "type": "text", "id": "cta", "label": "Link text", "default": "Shop Collection" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "select", "id": "icon", "label": "Icon", "default": "laptop", "options": [
+        { "value": "laptop", "label": "Laptop" }, { "value": "monitor", "label": "Monitor" }, { "value": "pen", "label": "Pen" }, { "value": "bag", "label": "Bag" }, { "value": "cpu", "label": "Processor" }, { "value": "shield", "label": "Shield" }, { "value": "speaker", "label": "Speaker" }
+      ]}
+    ]
+  }],
+  "max_blocks": 4,
+  "presets": [{ "name": "Category tiles", "blocks": [{ "type": "tile" }] }]
+}
+{% endschema %}

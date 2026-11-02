@@ -1,0 +1,27 @@
+<div class="wrap">
+  <nav class="crumbs"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.account_url }}">Account</a><span>/</span><span aria-current="page">Addresses</span></nav>
+  <div class="cart-title"><h1>Addresses</h1></div>
+  {%- paginate customer.addresses by 10 -%}
+  {%- for address in customer.addresses -%}
+    <div class="card-box"><p>{{ address | format_address }}</p>
+      <form method="post" action="{{ address.url }}" style="display:inline"><input type="hidden" name="_method" value="delete"><button class="btn btn--white" type="submit">Delete</button></form></div>
+  {%- endfor -%}
+  {%- endpaginate -%}
+  <div class="card-box"><h2>Add a new address</h2>
+  {%- form 'customer_address', customer.new_address -%}
+    <div class="field"><label for="AF">First name</label><input name="address[first_name]" id="AF" value="{{ form.first_name }}"></div>
+    <div class="field"><label for="AL">Last name</label><input name="address[last_name]" id="AL" value="{{ form.last_name }}"></div>
+    <div class="field"><label for="A1">Address</label><input name="address[address1]" id="A1" value="{{ form.address1 }}"></div>
+    <div class="field"><label for="A2">Apartment, suite, etc.</label><input name="address[address2]" id="A2" value="{{ form.address2 }}"></div>
+    <div class="field"><label for="AC">City</label><input name="address[city]" id="AC" value="{{ form.city }}"></div>
+    <div class="field"><label for="AZ">PIN code</label><input name="address[zip]" id="AZ" value="{{ form.zip }}"></div>
+    <div class="field"><label for="AP">Phone</label><input name="address[phone]" id="AP" value="{{ form.phone }}"></div>
+    <div class="field"><label for="ACo">Country</label><select name="address[country]" id="ACo" data-default="{{ form.country }}">{{ all_country_option_tags }}</select></div>
+    <div class="field"><label for="APr">State</label><select name="address[province]" id="APr" data-default="{{ form.province }}"></select></div>
+    <button class="btn" type="submit">Add address</button>
+  {%- endform -%}
+  </div>
+</div>
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+<script src="{{ 'customer_area.js' | shopify_asset_url }}" defer></script>
+<script>window.addEventListener('DOMContentLoaded',function(){ if(window.Shopify&&Shopify.CountryProvinceSelector){ new Shopify.CountryProvinceSelector('ACo','APr'); }});</script>

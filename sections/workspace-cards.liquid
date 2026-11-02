@@ -1,0 +1,41 @@
+<section class="wrap section">
+  <div class="sec-head"><div><h2>{{ section.settings.heading }}</h2><p>{{ section.settings.subheading }}</p></div></div>
+  <div class="wgrid">
+    {%- for block in section.blocks -%}
+      {%- capture card -%}
+        <a class="wcard{% if forloop.first %} wcard--lg{% endif %}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.tag != blank -%}<span class="tag">{{ block.settings.tag }}</span>{%- endif -%}
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+          <span class="btn btn--pill">{{ block.settings.button }} {% render 'icon', name: 'arrow' %}</span>
+          <span class="wcard__img">{%- if block.settings.image -%}{{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.title }}{%- endif -%}</span>
+        </a>
+      {%- endcapture -%}
+      {{ card }}{%- if forloop.first and forloop.length > 1 -%}<div class="wcol">{%- endif -%}
+      {%- if forloop.last and forloop.length > 1 -%}</div>{%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Workspace cards",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Computers for modern workspaces" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Premium AMD Ryzen performance, designed and built in India" }
+  ],
+  "blocks": [{
+    "type": "card", "name": "Card (first = large)",
+    "settings": [
+      { "type": "text", "id": "tag", "label": "Tag", "default": "180° convertible touch" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Somato Touch Pro" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Just 1.61 kg with a 14.1\" FHD IPS touch display and a 30,800 mWh battery." },
+      { "type": "text", "id": "button", "label": "Button label", "default": "Explore Touch Pro" },
+      { "type": "url", "id": "link", "label": "Link" },
+      { "type": "image_picker", "id": "image", "label": "Image" }
+    ]
+  }],
+  "max_blocks": 3,
+  "presets": [{ "name": "Workspace cards", "blocks": [{ "type": "card" }, { "type": "card" }, { "type": "card" }] }]
+}
+{% endschema %}

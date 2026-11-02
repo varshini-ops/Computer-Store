@@ -1,0 +1,60 @@
+<footer class="footer">
+  <div class="wrap footer__cols">
+    <div>
+      <a class="footer__logo" href="{{ routes.root_url }}">{%- if settings.logo -%}{{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name }}{%- else -%}Computer&nbsp;<b>Store</b>{%- endif -%}</a>
+      <p>{{ section.settings.about }}</p>
+      <div class="footer__social">
+        {%- if settings.social_web != blank -%}<a href="{{ settings.social_web }}" aria-label="Website">{% render 'icon', name: 'globe' %}</a>{%- endif -%}
+        {%- if settings.social_youtube != blank -%}<a href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube' %}</a>{%- endif -%}
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>{%- endif -%}
+        {%- if settings.social_linkedin != blank -%}<a href="{{ settings.social_linkedin }}" aria-label="LinkedIn">{% render 'icon', name: 'linkedin' %}</a>{%- endif -%}
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        {%- if section.settings.shop_menu != blank and section.settings.shop_menu.links.size > 0 -%}
+          {%- for l in section.settings.shop_menu.links -%}<li><a href="{{ l.url }}">{{ l.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          <li><a href="/collections/touch-laptops">Laptops</a></li>
+          <li><a href="/collections/all-in-one-pcs">All-in-One PCs</a></li>
+          <li><a href="/collections/accessories">Accessories</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <ul>
+        {%- if section.settings.support_menu != blank and section.settings.support_menu.links.size > 0 -%}
+          {%- for l in section.settings.support_menu.links -%}<li><a href="{{ l.url }}">{{ l.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          <li><a href="/pages/support">Product Support</a></li>
+          <li><a href="/pages/contact">Contact Us</a></li>
+          <li><a href="{{ routes.privacy_policy_url | default: '/policies/privacy-policy' }}">Privacy Policy</a></li>
+          <li><a href="{{ routes.terms_of_service_url | default: '/policies/terms-of-service' }}">Terms &amp; Conditions</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+    <div>
+      <h4>Get in touch</h4>
+      <p style="margin-top:0">{{ settings.company }}</p>
+      <p>{{ settings.address }}</p>
+      <p>{{ settings.phone }}</p>
+    </div>
+  </div>
+  <div class="wrap footer__bar">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+    <span><a href="{{ routes.privacy_policy_url | default: '/policies/privacy-policy' }}">Privacy Policy</a><i>|</i><a href="{{ routes.terms_of_service_url | default: '/policies/terms-of-service' }}">Terms &amp; Conditions</a></span>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "about", "label": "Tagline", "default": "Your trusted destination for laptops, desktops and computer accessories." },
+    { "type": "link_list", "id": "shop_menu", "label": "Shop menu (optional)" },
+    { "type": "link_list", "id": "support_menu", "label": "Support menu (optional)" }
+  ]
+}
+{% endschema %}

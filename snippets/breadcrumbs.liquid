@@ -1,0 +1,4 @@
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">Home</a>
+  {%- for c in crumbs -%}<span>/</span>{%- if c.url != blank -%}<a href="{{ c.url }}">{{ c.title }}</a>{%- else -%}<span aria-current="page">{{ c.title }}</span>{%- endif -%}{%- endfor -%}
+</nav>

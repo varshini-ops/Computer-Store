@@ -1,0 +1,27 @@
+<section class="wrap section">
+  <div class="sec-head">
+    <div><h2>{{ section.settings.heading }}</h2><p>{{ section.settings.subheading }}</p></div>
+    {%- if section.settings.link_label != blank -%}<a class="link" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}">{{ section.settings.link_label }} &nbsp;&rarr;</a>{%- endif -%}
+  </div>
+  {%- assign col = section.settings.collection | default: collections['all'] -%}
+  {%- if col.products_count > 0 -%}
+    <div class="pgrid pgrid--feature">
+      {%- for product in col.products limit: 3 -%}
+        {%- if forloop.first -%}{% render 'product-card', product: product, large: true %}{%- else -%}{% render 'product-card', product: product %}{%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- else -%}<p class="empty muted">Add products to show them here.</p>{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured Somato PCs" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Touch laptops and an all-in-one PC, all with a 2-year warranty" },
+    { "type": "collection", "id": "collection", "label": "Collection (default: all products)" },
+    { "type": "text", "id": "link_label", "label": "Link text", "default": "Shop All Products" }
+  ],
+  "presets": [{ "name": "Featured products" }]
+}
+{% endschema %}

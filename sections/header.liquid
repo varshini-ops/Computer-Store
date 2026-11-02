@@ -1,0 +1,45 @@
+{%- if section.settings.announcement != blank -%}<div class="announce">{{ section.settings.announcement }}</div>{%- endif -%}
+<header class="header">
+  <div class="wrap header__in">
+    <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {%- if settings.logo -%}{{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, loading: 'eager' }}{%- else -%}Computer <b>Store</b>{%- endif -%}
+    </a>
+    {%- capture nav_html -%}
+      {%- if section.settings.menu != blank and section.settings.menu.links.size > 0 -%}
+        {%- for link in section.settings.menu.links -%}<a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>{%- endfor -%}
+      {%- else -%}
+        <a href="{{ routes.root_url }}" {% if request.page_type == 'index' %}aria-current="page"{% endif %}>Home</a>
+        <a href="/collections/touch-laptops" {% if collection.handle == 'touch-laptops' %}aria-current="page"{% endif %}>Laptops</a>
+        <a href="/collections/all-in-one-pcs" {% if collection.handle == 'all-in-one-pcs' %}aria-current="page"{% endif %}>All-in-One PCs</a>
+        <a href="/collections/accessories" {% if collection.handle == 'accessories' %}aria-current="page"{% endif %}>Accessories</a>
+        <a href="/pages/about" {% if page.handle == 'about' %}aria-current="page"{% endif %}>About</a>
+        <a href="/pages/support" {% if page.handle == 'support' %}aria-current="page"{% endif %}>Support</a>
+      {%- endif -%}
+    {%- endcapture -%}
+    <nav class="nav" aria-label="Main">{{ nav_html }}</nav>
+    <div class="tools">
+      <form class="search" action="{{ routes.search_url }}" method="get" role="search">
+        {% render 'icon', name: 'search' %}
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search laptops, PCs, accessories" aria-label="Search">
+        <input type="hidden" name="type" value="product">
+      </form>
+      <a href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user' %}</a>
+      <a href="/pages/wishlist" aria-label="Wishlist">{% render 'icon', name: 'heart' %}</a>
+      <a href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">{% render 'icon', name: 'cart' %}{% if cart.item_count > 0 %}<span class="cart-dot">{{ cart.item_count }}</span>{% endif %}</a>
+      <details class="mnav">
+        <summary>Menu</summary>
+        <div class="mnav__list">{{ nav_html }}<a href="{{ routes.search_url }}">Search</a></div>
+      </details>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "text", "id": "announcement", "label": "Announcement bar", "default": "Top PC brands | Competitive prices | Secure payments | Reliable support" },
+    { "type": "link_list", "id": "menu", "label": "Menu (leave empty to use the default design menu)" }
+  ]
+}
+{% endschema %}

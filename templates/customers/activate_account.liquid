@@ -1,0 +1,9 @@
+<div class="wrap"><div class="auth">
+  <h1>Activate account</h1>
+  {%- form 'activate_customer_password' -%}
+    {%- if form.errors -%}<div class="msg msg--err">{{ form.errors | default_errors }}</div>{%- endif -%}
+    <div class="field"><label for="AP">Password</label><input type="password" name="customer[password]" id="AP" autocomplete="new-password" required></div>
+    <div class="field"><label for="AC">Confirm password</label><input type="password" name="customer[password_confirmation]" id="AC" autocomplete="new-password" required></div>
+    <button class="btn" type="submit">Activate account</button>
+  {%- endform -%}
+</div></div>

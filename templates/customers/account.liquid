@@ -1,0 +1,23 @@
+<div class="wrap">
+  <nav class="crumbs"><a href="{{ routes.root_url }}">Home</a><span>/</span><span aria-current="page">Account</span></nav>
+  <div class="cart-title"><h1>My account</h1><span>{{ customer.email }}</span></div>
+  <div class="cart" style="grid-template-columns:1fr 340px">
+    <div class="card-box">
+      <h2>Orders</h2>
+      {%- paginate customer.orders by 10 -%}
+        {%- if customer.orders.size > 0 -%}
+          <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Fulfilment</th><th>Total</th></tr></thead><tbody>
+          {%- for order in customer.orders -%}<tr><td><a class="link" href="{{ order.customer_url }}">{{ order.name }}</a></td><td>{{ order.created_at | date: '%d %b %Y' }}</td><td>{{ order.financial_status_label }}</td><td>{{ order.fulfillment_status_label }}</td><td>{{ order.total_price | money_without_trailing_zeros }}</td></tr>{%- endfor -%}
+          </tbody></table></div>
+          {%- if paginate.pages > 1 -%}<div class="pagination">{{ paginate | default_pagination }}</div>{%- endif -%}
+        {%- else -%}<p class="muted">You haven't placed any orders yet.</p><a class="btn" href="{{ routes.all_products_collection_url }}">Start shopping</a>{%- endif -%}
+      {%- endpaginate -%}
+    </div>
+    <aside class="summary">
+      <h2>{{ customer.name }}</h2>
+      {%- if customer.default_address -%}<p class="muted">{{ customer.default_address | format_address }}</p>{%- endif -%}
+      <a class="btn btn--white btn--block" href="{{ routes.account_addresses_url }}">Manage addresses</a>
+      <a class="link" href="{{ routes.account_logout_url }}">Sign out</a>
+    </aside>
+  </div>
+</div>
